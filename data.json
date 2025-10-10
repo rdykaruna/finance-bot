@@ -1,0 +1,90 @@
+{
+    "transactions": [
+        {
+            "date": "2025-08-01T14:08:08.810099",
+            "description": "July Salary",
+            "amount": 65000.0,
+            "category": "Income"
+        },
+        {
+            "date": "2025-08-06T14:08:08.810099",
+            "description": "Myntra Purchase",
+            "amount": -4000.0,
+            "category": "Shopping"
+        },
+        {
+            "date": "2025-08-31T14:08:08.810099",
+            "description": "August Salary",
+            "amount": 65000.0,
+            "category": "Income"
+        },
+        {
+            "date": "2025-09-08T14:08:08.810099",
+            "description": "September Salary",
+            "amount": 65000.0,
+            "category": "Income"
+        },
+        {
+            "date": "2025-09-10T14:08:08.810099",
+            "description": "Grocery Mart",
+            "amount": -4500.0,
+            "category": "Groceries"
+        },
+        {
+            "date": "2025-09-12T14:08:08.810099",
+            "description": "Electricity Bill",
+            "amount": -1200.0,
+            "category": "Bills & Utilities"
+        },
+        {
+            "date": "2025-09-15T14:08:08.810099",
+            "description": "Flipkart Purchase",
+            "amount": -8500.0,
+            "category": "Shopping"
+        },
+        {
+            "date": "2025-09-25T14:08:08.810099",
+            "description": "Swiggy Dinner",
+            "amount": -550.0,
+            "category": "Food & Drink"
+        },
+        {
+            "date": "2025-10-08T14:08:08.810099",
+            "description": "October Salary",
+            "amount": 65000.0,
+            "category": "Income"
+        },
+        {
+            "date": "2025-9-10T14:49:27.328676",
+            "description": "Theme Park payment",
+            "amount": -10000.0,
+            "category": "Entertainment"
+        },
+        {
+            "date": "2025-10-10T14:56:30.949422",
+            "description": "paid to wonderla",
+            "amount": -20000.0,
+            "category": "Entertainment"
+        },
+        {
+            "date": "2025-10-10T15:04:46.911524",
+            "description": "paid to wonderla",
+            "amount": -30000.0,
+            "category": "Entertainment"
+        }
+    ],
+    "budgets": {
+        "Groceries": 8000.0,
+        "Shopping": 10000.0,
+        "Food & Drink": 5000.0,
+        "Transport": 3000.0,
+        "Bills & Utilities": 15000.0
+    },
+    "goals": [
+        {
+            "name": "Rainy Day Fund",
+            "target_amount": 50000.0,
+            "saved_amount": 15000.0
+        }
+    ]
+}
