@@ -607,7 +607,7 @@ def main():
         current_data = load_data()
         user_query = input("\nYou: ")
         if user_query.lower() == 'exit':
-            print("🤖 Goodbye!")
+            print("🤖 Goodbye!") 
             break
 
         tool_call = get_tool_call(user_query, current_data)
