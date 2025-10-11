@@ -298,6 +298,9 @@ def find_transaction_date(data, description: str):
     return f"The last transaction for '{description}' was on *{latest['date'].strftime('%Y-%m-%d')}* for {CURRENCY_SYMBOL}{abs(latest['amount']):,.2f}."
 
 def visualize_spending(data, time_period: str = None):
+    import matplotlib
+    matplotlib.use('Agg')  # Use non-GUI backend for Flask/threaded environments
+    import matplotlib.pyplot as plt
     df = get_df(data)
     period_text = "All Time"
     if time_period:
@@ -506,9 +509,6 @@ def add_savings_goal(data, name: str, target_amount: float, months: int):
             else:
                 cut_suggestion = "Focus on reducing your non-essential spending."
                 
-            recommendation = (f"To meet this monthly target, you need to dedicate an additional {CURRENCY_SYMBOL}{cut_amount:,.2f} "
-                              f"from your current spending. {cut_suggestion}")
-    else:
         shortfall = required_monthly_saving - avg_discretionary_monthly
         recommendation = (f"**⚠️ ALERT:** This monthly target is higher than your average monthly discretionary spending over the last 6 months "
                           f"({CURRENCY_SYMBOL}{avg_discretionary_monthly:,.2f}). "
