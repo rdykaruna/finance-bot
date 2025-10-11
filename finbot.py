@@ -38,7 +38,7 @@ def load_data():
                 {"date": (ref_date - timedelta(days=120)).isoformat(), "description": "Salary July", "amount": 65000.0, "category": "Income"},
                 {"date": (ref_date - timedelta(days=90)).isoformat(), "description": "Salary Aug", "amount": 65000.0, "category": "Income"},
                 
-                # Transactions for Last Full Month (September 2025 based on current time)
+                # Transactions for Last Full Month (September 2025)
                 {"date": last_month_start.isoformat(), "description": "Salary Sept", "amount": 65000.0, "category": "Income"},
                 {"date": (last_month_start + timedelta(days=5)).isoformat(), "description": "Grocery Mart (Last Month)", "amount": -1200.0, "category": "Groceries"},
                 {"date": (last_month_start + timedelta(days=8)).isoformat(), "description": "Electricity Bill (Spike)", "amount": -4000.0, "category": "Bills & Utilities"}, # ANOMALY IN LAST FULL MONTH
@@ -90,6 +90,7 @@ def get_tool_call(user_query, data):
     - identify_unnecessary_spending(time_period: str = None): Finds discretionary categories with high spending and identifies spending anomalies (unusual spikes) in specific categories compared to historical data.
 
     *CRITICAL RULES:*
+    - **CRITICAL RULE 0:** If the User Query is a simple greeting (e.g., "hello", "hi", "good morning") or purely conversational, you **MUST** respond with the special `tool_name`: **`greeting_response`** and use the arguments: `{{ "response": "Hi there! How can I help you with your finances today? I can help you with saving goals, budget checks, and spending analysis." }}`.
     - If user asks for **total spending**, **total income**, or **how much they saved** (net savings), you MUST call **get_financial_total** and use the appropriate 'type' argument.
     - If the user asks about **"unnecessary"** or **"unwanted"** spending, you **MUST** call **identify_unnecessary_spending**.
     - If the user explicitly states a goal with a target amount AND a time limit, you MUST call **add_savings_goal**.
@@ -213,6 +214,10 @@ def get_spending_anomalies(df):
     return anomalies
 
 # --- TOOL FUNCTIONS ---
+
+# New handler for the conversational greeting response
+def handle_greeting(response: str):
+    return response
 
 def get_financial_total(data, type: str, time_period: str = None):
     """Calculates total income, total spending, or net savings for a period."""
@@ -454,7 +459,7 @@ def calculate_savings_plan(data, target_amount: float):
         report += "We detected recent unusual spikes that could derail your plan. Address these immediately:\n"
         for anomaly in anomalies:
             report += (f"- **{anomaly['category']}**: You typically spend **{CURRENCY_SYMBOL}{anomaly['avg_spend']:,.0f}** per month, but you spent "
-                       f"**{CURRENCY_SYMBOL}{anomaly['current_spend']:,.0f}** last month (a **{anomaly['current_spend']/anomaly['avg_spend']:.1f}x** increase!).\n")
+                       f"**{CURRENCY_SYMBOL}{anomaly['current_spend']:,.0f}** last month. This is **{anomaly['current_spend']/anomaly['avg_spend']:.1f}x** your usual rate!\n")
     else:
         report += "No major spending anomalies (unusual spikes) were detected last month.\n"
 
@@ -573,13 +578,14 @@ def main():
     data = load_data()
     proactive_insight = generate_proactive_insight(data)
     
-    print("🤖 AI Financial Assistant (God Level v1.9 - Anomaly Period Fix)")
+    print("🤖 AI Financial Assistant (God Level v2.1 - Critical Fix)")
     if proactive_insight:
         print(f"   {proactive_insight}")
-    print("   Anomaly detection now checks the **Last Full Month** for consistent reporting! How can I help? 🎯")
+    print("   Now handles greetings correctly and without a Python error! How can I help you today? 🎯")
     print("   Type 'exit' to quit.")
 
     tool_belt = {
+        "greeting_response": handle_greeting, # Added new handler
         "get_summary": get_summary,
         "get_financial_total": get_financial_total,
         "get_top_spending_category": get_top_spending_category,
@@ -610,11 +616,26 @@ def main():
 
         print(f"🧠 (Debug) AI decided to call tool: '{tool_name}' with arguments: {arguments}")
 
-        if tool_name in tool_belt:
+        if tool_name == "greeting_response":
+            # Special case handler for conversational greetings
+            response = arguments.get("response", "Hi! How can I help?")
+        elif tool_name in tool_belt:
             try:
-                response = tool_belt[tool_name](data=current_data, **arguments)
-            except TypeError:
-                 response = tool_belt[tool_name](current_data)
+                # All other tool calls require 'data' argument which is passed from the main loop
+                # The way arguments are handled here relies on the tool definition
+                if tool_name in ["get_financial_advice", "check_budgets", "get_balance", "get_top_spending_category", "visualize_spending", "generate_proactive_insight", "check_goals"]:
+                    # These only require data
+                    response = tool_belt[tool_name](data=current_data)
+                elif tool_name in ["add_transaction", "contribute_to_goal", "calculate_savings_plan", "add_savings_goal"]:
+                    # These require data plus named arguments
+                    response = tool_belt[tool_name](data=current_data, **arguments)
+                else:
+                    # Generic handler for tools requiring data + optional args or others
+                    response = tool_belt[tool_name](data=current_data, **arguments)
+            except TypeError as e:
+                # Catching cases where arguments are missing or incorrect
+                print(f"Error: Missing or incorrect arguments for tool '{tool_name}'. Details: {e}")
+                response = f"I'm missing some information to run the tool '{tool_name}'. Please try providing all necessary details."
             except Exception as e:
                 response = f"An error occurred while running the tool: {e}"
         else:

@@ -31,7 +31,7 @@
             "category": "Groceries"
         },
         {
-            "date": "2025-09-12T14:08:08.810099",
+            "date": "2025-3-12T14:08:08.810099",
             "description": "Electricity Bill",
             "amount": -1200.0,
             "category": "Bills & Utilities"
@@ -67,10 +67,46 @@
             "category": "Entertainment"
         },
         {
-            "date": "2025-10-10T15:04:46.911524",
+            "date": "2025-4-10T15:04:46.911524",
             "description": "paid to wonderla",
             "amount": -30000.0,
             "category": "Entertainment"
+        },
+        {
+            "date": "2025-5-10T21:38:36.737729",
+            "description": "Electric bill payment",
+            "amount": -1300.0,
+            "category": "Utilities"
+        },
+        {
+            "date": "2025-6-10T21:39:09.761513",
+            "description": "Electric Bill",
+            "amount": -1100.0,
+            "category": "Utilities"
+        },
+        {
+            "date": "2025-7-10T21:39:15.199318",
+            "description": "Electric bill payment",
+            "amount": -1000.0,
+            "category": "Utilities"
+        },
+        {
+            "date": "2025-8-10T21:39:23.600378",
+            "description": "electric bill",
+            "amount": -1400.0,
+            "category": "Utilities"
+        },
+        {
+            "date": "2025-1-10T21:39:30.560841",
+            "description": "Electric bill payment",
+            "amount": -1000.0,
+            "category": "Utilities"
+        },
+        {
+            "date": "2025-9-10T21:39:37.690007",
+            "description": "electric bill",
+            "amount": -3000.0,
+            "category": "Utilities"
         }
     ],
     "budgets": {
@@ -85,6 +121,12 @@
             "name": "Rainy Day Fund",
             "target_amount": 50000.0,
             "saved_amount": 15000.0
+        },
+        {
+            "name": "Bike",
+            "target_amount": 120000.0,
+            "saved_amount": 0.0,
+            "required_monthly_saving": 10000.0
         }
     ]
 }
