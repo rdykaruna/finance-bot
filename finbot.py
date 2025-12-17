@@ -11,7 +11,7 @@ from collections import defaultdict
 # --- 1. Configuration ---
 try:
     # Assuming API Key is set up elsewhere in the real execution environment
-    genai.configure(api_key="AIzaSyB2ROPgddv5SzQtSZXDlt4igvXyS0rR5GU") 
+    genai.configure(api_key="GEMINI_API_KEY") 
 except Exception:
     pass
 
